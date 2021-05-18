@@ -1,0 +1,27 @@
+{
+  "devDependencies": {
+    "@fitbit/sdk": "~5.0.0",
+    "@fitbit/sdk-cli": "^1.7.3"
+  },
+  "fitbit": {
+    "appUUID": "e05b07b3-cd23-493b-b042-16356c965c18",
+    "appType": "clockface",
+    "appDisplayName": "circleOclock",
+    "iconFile": "resources/icon.png",
+    "wipeColor": "",
+    "requestedPermissions": [],
+    "buildTargets": [
+      "atlas",
+      "vulcan"
+    ],
+    "i18n": {
+      "en-US": {
+        "name": "circleOclock"
+      }
+    },
+    "defaultLanguage": "en-US"
+  },
+  "scripts": {
+    "build": "fitbit-build"
+  }
+}

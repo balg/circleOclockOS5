@@ -1,0 +1,32 @@
+.fill_parent {
+  width: 100%;
+  height: 100%;
+}
+
+.gradient {
+  gradient-type: "linear";
+  gradient-x1: 0;
+  gradient-y1: 0;
+  gradient-x2: 0;
+  gradient-y2: 100%;
+  gradient-color1: "#0785DE";
+  gradient-color2: "#14D3F5";
+}
+
+.minutes {
+  x: 10;
+  y: 10;
+  width: 316;
+  height: 316;
+  arc-width: 11;
+  sweep-angle: 180;
+}
+
+.hours {
+  x: 30;
+  y: 30;
+  width: 276;
+  height: 276;
+  arc-width: 11;
+  sweep-angle: 180;
+}
