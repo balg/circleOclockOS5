@@ -3,37 +3,24 @@ import * as fs from "fs";
 const SETTINGS_TYPE = "cbor";
 const SETTINGS_FILE = "settings.cbor";
 
-class Settings {
-  settings = {
-    color: "cyan",
-  };
+let settings = {
+  color: "cyan",
+};
 
-  constructor() {
-    let settingsFromFile;
-
-    try {
-      settingsFromFile = fs.readFileSync(SETTINGS_FILE, SETTINGS_TYPE);
-    } catch (ex) {
-      console.log("Could not read settings file.");
-    }
-
-    if (settingsFromFile) {
-      this.settings = settingsFromFile;
-    }
+export const load = () => {
+  try {
+    settings = fs.readFileSync(SETTINGS_FILE, SETTINGS_TYPE);
+  } catch (ex) {
+    console.log("No settings file, using defaults");
   }
+};
 
-  get(key) {
-    return this.settings[key];
-  }
+export const get = (key) => settings[key];
 
-  set(key, value) {
-    this.settings[key] = value;
-  }
+export const set = (key, value) => {
+  settings[key] = value;
+};
 
-  save() {
-    console.log("Saving settings to file");
-    fs.writeFileSync(SETTINGS_FILE, this.settings, SETTINGS_TYPE);
-  }
-}
-
-export default Settings;
+export const save = () => {
+  fs.writeFileSync(SETTINGS_FILE, settings, SETTINGS_TYPE);
+};
