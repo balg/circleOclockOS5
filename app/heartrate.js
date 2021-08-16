@@ -50,3 +50,13 @@ export const init = (onReading) => {
   startSensor(hrs);
   startSensor(body);
 };
+
+export const enable = (isOn) => {
+  if (isOn) {
+    startSensor(hrs);
+    startSensor(body);
+  } else {
+    stopSensor(hrs);
+    stopSensor(body);
+  }
+}

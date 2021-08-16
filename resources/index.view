@@ -1,4 +1,4 @@
-<svg id="face" viewport-fill="black">
+<svg id="face" viewport-fill="black" pointer-events="visible">
   <!--  Background  -->
   <gradientRect opacity=".5" class="fill_parent gradient" />
   <mask id="mask">

@@ -8,6 +8,7 @@ class Screen {
     this.gradientItems = document.getElementsByClassName("gradient");
     this.solidItems = document.getElementsByClassName("solid-color");
     this.statLabel = document.getElementById("stat-label");
+    this.statImage = document.getElementById('stat-image');
   }
 
   refreshTime(date) {
@@ -44,6 +45,17 @@ class Screen {
   highlightHours(hours) {
     // 1 hour = 30 degrees
     this.hoursArc.sweepAngle = hours * 30;
+  }
+
+  setMode(mode) {
+    // TODO: Handle other modes
+    if (mode === 1) {
+      this.statImage.style.display = "inline";
+      this.statLabel.style.display = "inline";
+    } else {
+      this.statImage.style.display = "none";
+      this.statLabel.style.display = "none";
+    }
   }
 }
 
