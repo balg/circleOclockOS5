@@ -12,4 +12,12 @@
   </svg>
   <!--  Mask  -->
   <image href="mask.png" />
+
+  <image
+    id="stat-image"
+    href="icons/heart_rate_36px.png"
+    class="solid-color"
+  />
+  <text id="stat-label" class="solid-color">--</text>
+
 </svg>

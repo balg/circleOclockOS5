@@ -3,6 +3,10 @@
   height: 100%;
 }
 
+.solid-color {
+  fill: "#14D3F5";
+}
+
 .gradient {
   gradient-type: "linear";
   gradient-x1: 0;
@@ -29,4 +33,20 @@
   height: 276;
   arc-width: 11;
   sweep-angle: 180;
+}
+
+#stat-image {
+  x: 50%-18;
+  y: 50%-18;
+  width: 36;
+  height: 36;
+}
+
+#stat-label {
+  x: 50%;
+  y: 50%+44;
+  font-family: "System-Light";
+  font-size: 30;
+  text-anchor: "middle";
+  text-length: 3;
 }

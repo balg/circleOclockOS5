@@ -5,13 +5,19 @@ class Screen {
   constructor() {
     this.hoursArc = document.getElementById("hours");
     this.minutesArc = document.getElementById("minutes");
-    this.coloredItems = document.getElementsByClassName("gradient");
+    this.gradientItems = document.getElementsByClassName("gradient");
+    this.solidItems = document.getElementsByClassName("solid-color");
+    this.statLabel = document.getElementById("stat-label");
   }
 
   refreshTime(date) {
     const hours = date.getHours() % 12 || 12;
     this.highlightHours(hours);
     this.highlightMinutes(date.getMinutes());
+  }
+
+  refreshStat(value) {
+    this.statLabel.text = value;
   }
 
   setColor(color) {
@@ -21,9 +27,12 @@ class Screen {
       color1 = gradients[color]?.color || colors[color]?.color || color;
       color2 = gradients[color]?.color2 || colors[color]?.color || color;
     }
-    this.coloredItems.forEach((item) => {
+    this.gradientItems.forEach((item) => {
       item.gradient.colors.c1 = color1;
       item.gradient.colors.c2 = color2;
+    });
+    this.solidItems.forEach((item) => {
+      item.style.fill = color1;
     });
   }
 
