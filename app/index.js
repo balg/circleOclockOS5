@@ -1,10 +1,10 @@
 import { me } from "appbit";
 import clock from "clock";
-import * as messaging from "messaging";
 import * as document from "document";
+import * as messaging from "messaging";
+import HeartRate from "./heartrate";
 import Screen from "./screen";
 import * as Settings from "./settings";
-import * as HeartRate from "./heartrate";
 
 const modes = {
   OFF: 0,
@@ -21,18 +21,22 @@ clock.ontick = (evt) => {
   screen.refreshTime(evt.date);
 };
 
+let heartRate;
+if (me.permissions.granted("access_heart_rate")) {
+  heartRate = new HeartRate(mode === modes.HR);
+  heartRate.init((value) => {
+    screen.refreshStat(value);
+  });
+}
+
 document.getElementById("face").addEventListener("click", () => {
   mode = (mode + 1) % Object.keys(modes).length;
 
   screen.setMode(mode);
-  HeartRate.enable(mode === modes.HR);
+  if (heartRate) {
+    heartRate.enable(mode === modes.HR);
+  }
 })
-
-if (me.permissions.granted("access_heart_rate")) {
-  HeartRate.init((value) => {
-    screen.refreshStat(value);
-  });
-}
 
 // Received message containing settings data
 messaging.peerSocket.addEventListener("message", function (evt) {

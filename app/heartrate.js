@@ -2,61 +2,73 @@ import { HeartRateSensor } from "heart-rate";
 import { BodyPresenceSensor } from "body-presence";
 import { display } from "display";
 
-let hrs;
-let body;
+class HeartRate {
+  hrs;
+  body;
+  isOn;
 
-const startSensor = (sensor) => {
-  if (sensor && !sensor.activated) {
-    // sensor can be undefined if not avail, example: body
-    sensor.start();
+  constructor(isOn) {
+    this.isOn = isOn;
   }
-};
 
-const stopSensor = (sensor) => {
-  if (sensor?.activated) {
-    sensor.stop();
-  }
-};
-
-export const init = (onReading) => {
-  hrs = new HeartRateSensor({ frequency: 1, batch: 2 });
-
-  if (BodyPresenceSensor) {
-    body = new BodyPresenceSensor();
-
-    body.addEventListener("reading", () => {
-      if (body.present) {
-        startSensor(hrs);
+  init(onReading) {
+    this.hrs = new HeartRateSensor({ frequency: 1, batch: 2 });
+  
+    if (BodyPresenceSensor) {
+      this.body = new BodyPresenceSensor();
+  
+      this.body.addEventListener("reading", () => {
+        if (this.body.present && this.isOn) {
+          this.startSensor(this.hrs);
+        } else {
+          this.stopSensor(this.hrs);
+        }
+      });
+    }
+  
+    this.hrs.addEventListener("reading", () => {
+      onReading(this.hrs.heartRate);
+    });
+  
+    display.addEventListener("change", () => {
+      if (display.on && this.isOn) {
+        this.startSensor(this.hrs);
+        this.startSensor(this.body);
       } else {
-        stopSensor(hrs);
+        this.stopSensor(this.body);
+        this.stopSensor(this.hrs);
       }
     });
-  }
-
-  hrs.addEventListener("reading", () => {
-    onReading(hrs.heartRate);
-  });
-
-  display.addEventListener("change", () => {
-    if (display.on) {
-      startSensor(hrs);
-      startSensor(body);
-    } else {
-      stopSensor(body);
-      stopSensor(hrs);
+  
+    if (this.isOn) {
+      this.startSensor(this.hrs);
+      this.startSensor(this.body);
     }
-  });
+  };
 
-  startSensor(hrs);
-  startSensor(body);
-};
-
-export const enable = (isOn) => {
-  if (isOn) {
-    startSensor(hrs);
-    startSensor(body);
-  } else {
-    stopSensor(hrs);
-    stopSensor(body);
+  enable(isOn) {
+    this.isOn = isOn;
+    if (this.isOn) {
+      this.startSensor(this.hrs);
+      this.startSensor(this.body);
+    } else {
+      this.stopSensor(this.hrs);
+      this.stopSensor(this.body);
+    }
   }
+
+  startSensor(sensor) {
+    if (sensor && !sensor.activated) {
+      // sensor can be undefined if not avail, example: body
+      sensor.start();
+    }
+  };
+  
+  stopSensor(sensor) {
+    if (sensor?.activated) {
+      sensor.stop();
+    }
+  };
 }
+
+export default HeartRate;
