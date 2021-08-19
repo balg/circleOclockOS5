@@ -36,32 +36,32 @@ document.getElementById("face").addEventListener("click", () => {
 
   screen.setMode(mode);
 
-  let statText;
+  let statValue;
   if (todaysActivity) {
     switch (mode) {
       case modes.CAL:
-        statText = todaysActivity.calories;
+        statValue = todaysActivity.calories;
         break;
       case modes.STEPS:
-        statText = todaysActivity.steps;
+        statValue = todaysActivity.steps;
         break;
       case modes.DIST:
-        statText = todaysActivity.distance && (todaysActivity.distance / 1000).toFixed(2);
+        statValue = todaysActivity.distance && (todaysActivity.distance / 1000).toFixed(2);
         break;
       case modes.FLOOR:
         if (today.local.elevationGain !== undefined) {
-          statText = todaysActivity.elevationGain;
+          statValue = todaysActivity.elevationGain;
         }
         break;
       case modes.AZM:
-          statText = todaysActivity.activeZoneMinutes?.total;
+          statValue = todaysActivity.activeZoneMinutes?.total;
           break;
       case modes.HR:
       default:
         break;
     }
   }
-  screen.refreshStat(statText ?? "--");
+  screen.refreshStat(statValue !== undefined ? statValue.toLocaleString() : "--");
 
   if (heartRate) {
     heartRate.enable(mode === modes.HR);
