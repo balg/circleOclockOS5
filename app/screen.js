@@ -1,6 +1,25 @@
 import document from "document";
 import { colors, gradients } from "../common/colors";
 
+export const modes = {
+  OFF: 0,
+  HR: 1,
+  CAL: 2,
+  STEPS: 3,
+  DIST: 4,
+  FLOOR: 5,
+  AZM: 6,
+}
+
+const iconName = {
+  [modes.HR]: 'heart_rate',
+  [modes.CAL]: 'calories',
+  [modes.STEPS]: 'steps',
+  [modes.DIST]: 'distance',
+  [modes.FLOOR]: 'floors',
+  [modes.AZM]: 'azm',
+}
+
 class Screen {
   constructor() {
     this.hoursArc = document.getElementById("hours");
@@ -48,14 +67,10 @@ class Screen {
   }
 
   setMode(mode) {
-    // TODO: Handle other modes
-    if (mode === 1) {
-      this.statImage.style.display = "inline";
-      this.statLabel.style.display = "inline";
-    } else {
-      this.statImage.style.display = "none";
-      this.statLabel.style.display = "none";
-    }
+    this.statImage.style.display = mode === modes.OFF ? "none" : "inline";
+    this.statLabel.style.display = mode === modes.OFF ? "none" : "inline";
+
+    this.statImage.href = `icons/${iconName[mode]}_36px.png`;
   }
 }
 
