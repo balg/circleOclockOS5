@@ -9,6 +9,7 @@ export const modes = {
   DIST: 4,
   FLOOR: 5,
   AZM: 6,
+  DATE: 7,
 }
 
 const iconName = {
@@ -18,6 +19,7 @@ const iconName = {
   [modes.DIST]: 'distance',
   [modes.FLOOR]: 'floors',
   [modes.AZM]: 'azm',
+  [modes.DATE]: 'calendar',
 }
 
 class Screen {

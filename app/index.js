@@ -6,6 +6,7 @@ import { today } from "user-activity";
 import HeartRate from "./heartrate";
 import Screen, { modes } from "./screen";
 import * as Settings from "./settings";
+import { months } from "./utils";
 
 let mode = modes.OFF;
 
@@ -56,6 +57,12 @@ document.getElementById("face").addEventListener("click", () => {
       case modes.AZM:
           statValue = todaysActivity.activeZoneMinutes?.total;
           break;
+      case modes.DATE:
+          const now = new Date();
+          const day = now.getDate();
+          const month = now.getMonth();
+
+          statValue = `${months[month]} ${day}`;
       case modes.HR:
       default:
         break;
