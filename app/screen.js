@@ -1,5 +1,6 @@
 import document from "document";
 import { colors, gradients } from "../common/colors";
+import { months } from "./utils";
 
 export const modes = {
   OFF: 0,
@@ -10,17 +11,17 @@ export const modes = {
   FLOOR: 5,
   AZM: 6,
   DATE: 7,
-}
+};
 
 const iconName = {
-  [modes.HR]: 'heart_rate',
-  [modes.CAL]: 'calories',
-  [modes.STEPS]: 'steps',
-  [modes.DIST]: 'distance',
-  [modes.FLOOR]: 'floors',
-  [modes.AZM]: 'azm',
-  [modes.DATE]: 'calendar',
-}
+  [modes.HR]: "heart_rate",
+  [modes.CAL]: "calories",
+  [modes.STEPS]: "steps",
+  [modes.DIST]: "distance",
+  [modes.FLOOR]: "floors",
+  [modes.AZM]: "azm",
+  [modes.DATE]: "calendar",
+};
 
 class Screen {
   constructor() {
@@ -29,7 +30,7 @@ class Screen {
     this.gradientItems = document.getElementsByClassName("gradient");
     this.solidItems = document.getElementsByClassName("solid-color");
     this.statLabel = document.getElementById("stat-label");
-    this.statImage = document.getElementById('stat-image');
+    this.statImage = document.getElementById("stat-image");
   }
 
   refreshTime(date) {
@@ -71,6 +72,16 @@ class Screen {
   setMode(mode) {
     this.statImage.style.display = mode === modes.OFF ? "none" : "inline";
     this.statLabel.style.display = mode === modes.OFF ? "none" : "inline";
+
+    this.refreshStat("--");
+
+    if (mode === modes.DATE) {
+      const now = new Date();
+      const day = now.getDate();
+      const month = now.getMonth();
+
+      this.refreshStat(`${months[month]} ${day}`);
+    }
 
     this.statImage.href = `icons/${iconName[mode]}_36px.png`;
   }

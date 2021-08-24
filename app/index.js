@@ -3,15 +3,15 @@ import clock from "clock";
 import * as document from "document";
 import * as messaging from "messaging";
 import { today } from "user-activity";
+import * as Activity from "./activity";
 import HeartRate from "./heartrate";
 import Screen, { modes } from "./screen";
 import * as Settings from "./settings";
-import { months } from "./utils";
-
-let mode = modes.OFF;
 
 const screen = new Screen();
 Settings.load();
+
+let mode = Settings.get("mode") || modes.OFF;
 screen.setColor(Settings.get("color"));
 
 clock.granularity = "minutes";
@@ -30,50 +30,35 @@ if (me.permissions.granted("access_heart_rate")) {
 let todaysActivity;
 if (me.permissions.granted("access_activity")) {
   todaysActivity = today.adjusted;
+
+  Activity.initialize((data) => {
+    const statLabel = data[mode];
+    if (statLabel !== undefined) {
+      screen.refreshStat(statLabel);
+    }
+  });
 }
 
-document.getElementById("face").addEventListener("click", () => {
-  mode = (mode + 1) % Object.keys(modes).length;
+const setMode = () => {
+  Settings.set("mode", mode);
 
   screen.setMode(mode);
-
-  let statValue;
-  if (todaysActivity) {
-    switch (mode) {
-      case modes.CAL:
-        statValue = todaysActivity.calories;
-        break;
-      case modes.STEPS:
-        statValue = todaysActivity.steps;
-        break;
-      case modes.DIST:
-        statValue = todaysActivity.distance && (todaysActivity.distance / 1000).toFixed(2);
-        break;
-      case modes.FLOOR:
-        if (today.local.elevationGain !== undefined) {
-          statValue = todaysActivity.elevationGain;
-        }
-        break;
-      case modes.AZM:
-          statValue = todaysActivity.activeZoneMinutes?.total;
-          break;
-      case modes.DATE:
-          const now = new Date();
-          const day = now.getDate();
-          const month = now.getMonth();
-
-          statValue = `${months[month]} ${day}`;
-      case modes.HR:
-      default:
-        break;
-    }
-  }
-  screen.refreshStat(statValue !== undefined ? statValue.toLocaleString() : "--");
 
   if (heartRate) {
     heartRate.enable(mode === modes.HR);
   }
-})
+
+  if (mode === modes.OFF || mode === modes.HR || mode === modes.DATE) {
+    Activity.stopTracking();
+  } else {
+    Activity.startTracking();
+  }
+};
+
+document.getElementById("face").addEventListener("click", () => {
+  mode = (mode + 1) % Object.keys(modes).length;
+  setMode();
+});
 
 // Received message containing settings data
 messaging.peerSocket.addEventListener("message", function (evt) {
@@ -88,3 +73,6 @@ messaging.peerSocket.addEventListener("message", function (evt) {
 
 // Register for the unload event
 me.addEventListener("unload", Settings.save);
+
+// Activate current mode
+setMode();
