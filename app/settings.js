@@ -1,10 +1,12 @@
 import * as fs from "fs";
+import { modes } from "./screen";
 
 const SETTINGS_TYPE = "cbor";
 const SETTINGS_FILE = "settings.cbor";
 
 let settings = {
   color: "cyan",
+  mode: modes.OFF,
 };
 
 export const load = () => {
