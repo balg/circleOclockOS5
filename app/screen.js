@@ -29,18 +29,42 @@ class Screen {
     this.minutesArc = document.getElementById("minutes");
     this.gradientItems = document.getElementsByClassName("gradient");
     this.solidItems = document.getElementsByClassName("solid-color");
+    this.mode = modes.OFF;
     this.statLabel = document.getElementById("stat-label");
     this.statImage = document.getElementById("stat-image");
+    this.stats = {
+      [modes.DATE]: Screen.getDateText(new Date()),
+    };
+  }
+
+  static getDateText(date) {
+    const day = date.getDate();
+    const month = date.getMonth();
+
+    return `${months[month]} ${day}`;
   }
 
   refreshTime(date) {
     const hours = date.getHours() % 12 || 12;
     this.highlightHours(hours);
     this.highlightMinutes(date.getMinutes());
+
+    this.setStats({
+      [modes.DATE]: Screen.getDateText(date),
+    });
   }
 
-  refreshStat(value) {
-    this.statLabel.text = value;
+  refreshStatText() {
+    this.statLabel.text = this.stats[this.mode] ?? "--";
+  }
+
+  setStats(data) {
+    this.stats = {
+      ...this.stats,
+      ...data,
+    };
+
+    this.refreshStatText();
   }
 
   setColor(color) {
@@ -73,17 +97,11 @@ class Screen {
     this.statImage.style.display = mode === modes.OFF ? "none" : "inline";
     this.statLabel.style.display = mode === modes.OFF ? "none" : "inline";
 
-    this.refreshStat("--");
+    this.statImage.href =
+      mode !== modes.OFF ? `icons/${iconName[mode]}_36px.png` : "";
 
-    if (mode === modes.DATE) {
-      const now = new Date();
-      const day = now.getDate();
-      const month = now.getMonth();
-
-      this.refreshStat(`${months[month]} ${day}`);
-    }
-
-    this.statImage.href = `icons/${iconName[mode]}_36px.png`;
+    this.mode = mode;
+    this.refreshStatText();
   }
 }
 

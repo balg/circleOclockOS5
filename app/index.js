@@ -23,7 +23,9 @@ let heartRate;
 if (me.permissions.granted("access_heart_rate")) {
   heartRate = new HeartRate(mode === modes.HR);
   heartRate.init((value) => {
-    screen.refreshStat(value);
+    screen.setStats({
+      [modes.HR]: value,
+    });
   });
 }
 
@@ -32,10 +34,7 @@ if (me.permissions.granted("access_activity")) {
   todaysActivity = today.adjusted;
 
   Activity.initialize((data) => {
-    const statLabel = data[mode];
-    if (statLabel !== undefined) {
-      screen.refreshStat(statLabel);
-    }
+    screen.setStats(data);
   });
 }
 
