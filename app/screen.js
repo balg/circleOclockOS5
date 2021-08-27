@@ -55,7 +55,13 @@ class Screen {
   }
 
   refreshStatText() {
-    this.statLabel.text = this.stats[this.mode] ?? "--";
+    let label = this.stats[this.mode] ?? "--";
+
+    if (typeof label === "number") {
+      label = label.toLocaleString();
+    }
+
+    this.statLabel.text = label;
   }
 
   setStats(data) {
