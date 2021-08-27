@@ -39,16 +39,16 @@ const tickEventHandler = () => {
 
 export const initialize = (callback) => {
   activityCallback = callback;
-
-  clock.granularity = "seconds";
 };
 
 export const startTracking = () => {
   if (activityCallback) {
+    clock.granularity = "seconds";
     clock.addEventListener("tick", tickEventHandler);
   }
 };
 
 export const stopTracking = () => {
+  clock.granularity = "minutes";
   clock.removeEventListener("tick", tickEventHandler);
 };

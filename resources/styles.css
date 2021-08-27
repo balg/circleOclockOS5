@@ -22,8 +22,6 @@
   y: 10;
   width: 316;
   height: 316;
-  arc-width: 11;
-  sweep-angle: 180;
 }
 
 .hours {
@@ -31,6 +29,9 @@
   y: 30;
   width: 276;
   height: 276;
+}
+
+.arc {
   arc-width: 11;
   sweep-angle: 180;
 }

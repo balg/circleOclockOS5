@@ -25,6 +25,7 @@ const iconName = {
 
 class Screen {
   constructor() {
+    this.background = document.getElementById("background");
     this.hoursArc = document.getElementById("hours");
     this.minutesArc = document.getElementById("minutes");
     this.gradientItems = document.getElementsByClassName("gradient");
@@ -108,6 +109,26 @@ class Screen {
 
     this.mode = mode;
     this.refreshStatText();
+  }
+
+  aod(on) {
+    if (on) {
+      this.hoursArc.arcWidth = 5;
+      this.minutesArc.arcWidth = 5;
+
+      this.background.style.display = "none";
+      this.statImage.style.display = "none";
+      this.statLabel.style.display = "none";
+    } else {
+      this.hoursArc.arcWidth = 11;
+      this.minutesArc.arcWidth = 11;
+
+      this.background.style.display = "inline";
+      this.statImage.style.display =
+        this.mode === modes.OFF ? "none" : "inline";
+      this.statLabel.style.display =
+        this.mode === modes.OFF ? "none" : "inline";
+    }
   }
 }
 

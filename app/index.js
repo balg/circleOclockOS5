@@ -1,5 +1,6 @@
 import { me } from "appbit";
 import clock from "clock";
+import { display } from "display";
 import * as document from "document";
 import * as messaging from "messaging";
 import { today } from "user-activity";
@@ -75,3 +76,21 @@ me.addEventListener("unload", Settings.save);
 
 // Activate current mode
 setMode();
+
+if (display.aodAvailable && me.permissions.granted("access_aod")) {
+  display.aodAllowed = true;
+
+  display.addEventListener("change", () => {
+    if (display.on && !display.aodActive) {
+      // Display is ON and AOD is NOT ACTIVE
+      screen.aod(false);
+      if (mode !== modes.OFF && mode !== modes.HR && mode !== modes.DATE) {
+        Activity.startTracking();
+      }
+    } else {
+      // Display is OFF or AOD IS ACTIVE
+      screen.aod(true);
+      Activity.stopTracking();
+    }
+  });
+}

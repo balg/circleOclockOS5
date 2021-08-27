@@ -1,11 +1,11 @@
 <svg id="face" viewport-fill="black" pointer-events="visible">
   <!--  Background  -->
-  <gradientRect opacity=".5" class="fill_parent gradient" />
+  <gradientRect id="background" opacity=".5" class="fill_parent gradient" />
   <mask id="mask">
     <!--  Minutes Arc  -->
-    <arc id="minutes" class="minutes" />
+    <arc id="minutes" class="arc minutes" />
     <!--  Hours Arc  -->
-    <arc id="hours" class="hours" />
+    <arc id="hours" class="arc hours" />
   </mask>
   <svg mask="#mask" class="fill_parent">
     <gradientRect class="fill_parent gradient" />

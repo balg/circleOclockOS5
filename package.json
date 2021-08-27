@@ -11,7 +11,8 @@
     "wipeColor": "",
     "requestedPermissions": [
       "access_activity",
-      "access_heart_rate"
+      "access_heart_rate",
+      "access_aod"
     ],
     "buildTargets": [
       "atlas",
