@@ -7,6 +7,7 @@ import * as Activity from "./activity";
 import HeartRate from "./heartrate";
 import Screen, { modes } from "./screen";
 import * as Settings from "./settings";
+import { granularity } from "./utils";
 
 const screen = new Screen();
 Settings.load();
@@ -14,7 +15,7 @@ Settings.load();
 let mode = Settings.get("mode") || modes.OFF;
 screen.setColor(Settings.get("color"));
 
-clock.granularity = "minutes";
+clock.granularity = granularity.MINUTES;
 clock.ontick = (evt) => {
   screen.refreshTime(evt.date);
 };
