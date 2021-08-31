@@ -2,6 +2,7 @@ import clock from "clock";
 import { today } from "user-activity";
 import { units } from "user-settings";
 import { modes } from "./screen";
+import { granularity } from "./utils";
 
 let activityCallback;
 
@@ -39,16 +40,16 @@ const tickEventHandler = () => {
 
 export const initialize = (callback) => {
   activityCallback = callback;
-
-  clock.granularity = "seconds";
 };
 
 export const startTracking = () => {
   if (activityCallback) {
     clock.addEventListener("tick", tickEventHandler);
+    clock.granularity = granularity.SECONDS;
   }
 };
 
 export const stopTracking = () => {
   clock.removeEventListener("tick", tickEventHandler);
+  clock.granularity = granularity.MINUTES;
 };

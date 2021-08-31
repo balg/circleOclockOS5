@@ -11,4 +11,9 @@ export const months = [
   "Oct",
   "Nov",
   "Dec",
-]
+];
+
+export const granularity = {
+  MINUTES: "minutes",
+  SECONDS: "seconds",
+};
